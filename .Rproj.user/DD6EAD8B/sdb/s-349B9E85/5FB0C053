@@ -1,0 +1,25 @@
+{
+    "contents" : "",
+    "created" : 1449265149022.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "5FB0C053",
+    "lastKnownWriteTime" : 0,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "0f3hcmjsxi",
+        "caption" : "centralEffect.melt",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=centralEffect.melt&cache_key=0f3hcmjsxi",
+        "displayedObservations" : 112,
+        "environment" : "",
+        "object" : "centralEffect.melt",
+        "totalObservations" : 112,
+        "variables" : 3
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "type" : "r_dataframe"
+}

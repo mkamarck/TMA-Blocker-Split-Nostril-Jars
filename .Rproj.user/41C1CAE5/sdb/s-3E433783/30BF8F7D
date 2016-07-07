@@ -1,0 +1,25 @@
+{
+    "contents" : "",
+    "created" : 1445032286032.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "30BF8F7D",
+    "lastKnownWriteTime" : 7306916064555987712,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "6rbch8p7wg",
+        "caption" : "ValveCode",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=ValveCode&cache_key=6rbch8p7wg",
+        "displayedObservations" : "32",
+        "environment" : "",
+        "object" : "ValveCode",
+        "totalObservations" : "32",
+        "variables" : "5"
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "type" : "r_dataframe"
+}

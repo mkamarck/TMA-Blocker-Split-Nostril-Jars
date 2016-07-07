@@ -1,0 +1,18 @@
+{
+    "contents" : "# trying to make a graph for my poster\n#start with this\n#centralEffectAverage <- ddply(.data = df.merge, .variables = c(\"Subject\", \"NostrilType\", \"Odor\", \"Block\"), .fun= summarize, avgTMA = mean(TMA))\nrange01 <- function(x){(x-min(x))/(max(x)-min(x))}\nnormalizedData <- ddply(df.merge, .variables = c(\"Subject\"), transform, TMANorm = range01(TMA), antagNorm = range01(Antag))\n\nggplot(normalizedData, aes(x = NostrilType, y = TMANorm, fill = Block)) +\n  geom_boxplot()\n\n\n\n#normalize data\navgnorm <- ddply(.data = normalizedData, .variables = c(\"Subject\", \"NostrilType\", \"Odor\", \"Block\"), .fun= summarize, avgTMA = mean(TMANorm), stdev = sd(TMANorm), sterr = stdev/sqrt(4))\npureavg <- ddply(.data = avgnorm, .variables = c(\"NostrilType\", \"Odor\", \"Block\"), .fun = summarize, avgTMA2 = mean(avgTMA), stdev = sd(avgTMA), sterr = sd(avgTMA)/2)\n#devSVG(\"splitnostrilgraph2.svg\")\nggplot(pureavg, aes(x = NostrilType, y = avgTMA2, fill = Block)) +\n  geom_bar(stat = \"identity\", position = \"dodge\") +\n  facet_grid(.~Block) + \n  geom_errorbar(data = pureavg, position = \"dodge\", stat = \"identity\", aes(ymin = avgTMA2 - sterr, ymax = avgTMA2 + sterr))\ndev.off()\n\n#jar intensity balance graph\navgnormAntag <- ddply(.data = normalizedData, .variables = c(\"Subject\", \"NostrilType\", \"Odor\", \"Block\"), .fun= summarize, avgAntag = mean(antagNorm), stdev = sd(antagNorm))\npureavgAntag <- ddply(.data = avgnormAntag, .variables = c(\"NostrilType\", \"Odor\", \"Block\"), .fun = summarize, avgAntag2 = mean(avgAntag), stdev = sd(avgAntag), sterr = sd(avgAntag)/2)\nantagsub <- subset(pureavgAntag, NostrilType == \"Alone\" & Odor != \"TMA\") \nnames(antagsub) <- c(\"NostrilType\", \"Odor\", \"Block\",  \"Intensity\", \"stdev\", \"sterr\")\ntmasub <- subset(pureavg, NostrilType == \"Alone\" & Odor == \"TMA\")\nnames(tmasub) <-  c(\"NostrilType\", \"Odor\", \"Block\",  \"Intensity\", \"stdev\", \"sterr\")\ntogether <- rbind(tmasub, antagsub)\ntogether$Odor <- factor(together$Odor, levels = c(\"TMA\", \"Non\", \"Lin\"))\n\n#devSVG(\"/Volumes/mainland/Projects/TMA blocker/Poster/splitnostrilgraphIntensity.svg\")\nggplot(together, aes(x = Odor, y = Intensity, fill = Odor)) +\n  geom_bar(stat = \"identity\", position = \"dodge\") +\n  geom_errorbar(data = together, position = \"dodge\", stat = \"identity\", aes(ymin = Intensity - sterr, ymax = Intensity + sterr))\n#dev.off()",
+    "created" : 1460599287426.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2351211328",
+    "id" : "17E6B54D",
+    "lastKnownWriteTime" : 1467392649,
+    "path" : "/Volumes/mainland/Projects/TMA blocker/Split Nostril Study/Setup1/Code/GraphforAchemsPoster.R",
+    "project_path" : "GraphforAchemsPoster.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

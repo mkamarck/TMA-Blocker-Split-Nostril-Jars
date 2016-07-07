@@ -1,0 +1,25 @@
+{
+    "contents" : "",
+    "created" : 1449678235911.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "288EB1ED",
+    "lastKnownWriteTime" : 9218868437227405311,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "ujx74ocn1r",
+        "caption" : "totalBlockingLR",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=totalBlockingLR&cache_key=ujx74ocn1r",
+        "displayedObservations" : "96",
+        "environment" : "",
+        "object" : "totalBlockingLR",
+        "totalObservations" : "96",
+        "variables" : "6"
+    },
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "type" : "r_dataframe"
+}

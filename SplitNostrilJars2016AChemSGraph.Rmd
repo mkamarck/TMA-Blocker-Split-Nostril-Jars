@@ -1,0 +1,113 @@
+---
+title: "SplitNostrilJars2016AchemsGraph"
+output: html_document
+---
+
+This is the code to re-create the graph made for Marissa Kamarck's AChemS's Poster from April 2016. 
+The data used was collected from a split nostril experiment testing trans-2-nonen-1-ol as an hTAAR5 antagonist. 
+The data was collected using a jar sniff method (setup1). 
+The graphed data plots the fishy intensity rated for each nostril type 
+Alone = TMA alone + control in other nostril
+different  = TMA in one nostril, antag in the other
+same = TMA and antag in the same nostril
+
+```{r}
+#Import Libraries
+library(reshape2)
+library(ggplot2)
+library(plyr)
+
+setwd("/Volumes/mainland/Projects/TMA blocker/Split Nostril Study/Setup1/")
+
+#read all files from directory
+subj <- dir(path = "Data/", pattern="\\.txt$", full.names=TRUE)# creating a list of all file names
+names(subj)  <- basename(subj)
+df  <- ldply(subj, read.delim, stringsAsFactors=FALSE)
+
+#subsetdata to get rid of test mode and include only relevant columnss
+dfSubset  <- subset(df, Procedure.SubTrial. == "RatingProc", select = c ("Subject", "Session", "Running.Block.",  "Trial", "Procedure.Trial.", "BlockRating.SubTrial.", "BlockRating", "TMARating.SubTrial.", "TMARating", "Straw1and2", "Straw3and4", "Jar1", "Jar2", "Jar3", "Jar4"))
+#Combine the weird thing that's happening with the two different columns for rating...
+for(i in 1:length(dfSubset$TMARating)){
+  if(is.na(dfSubset$TMARating[i])){
+    dfSubset$TMARating[i] <- dfSubset$TMARating.SubTrial.[i]
+    dfSubset$BlockRating[i] <- dfSubset$BlockRating.SubTrial.[i]
+    }
+  }
+
+dfSubset <- subset(dfSubset, select = -c(TMARating.SubTrial.,BlockRating.SubTrial.))
+
+#get rid of participants from lab
+dfSubset <- dfSubset[which(dfSubset$Subject != 2 & dfSubset$Subject != 3 & dfSubset$Subject !=7),]
+#cONVErT SCALES
+dfSubset$TMA  <- 401-as.integer(dfSubset$TMARating)
+dfSubset$Antag  <- 401 - as.integer(dfSubset$BlockRating)
+
+#delete function
+delete.na <- function(df, n=0) {
+  log <- apply(df, 2, is.na)
+  logindex <- apply(log, 1, function(x) sum(x) <= n)
+  df[logindex, ]
+}
+dfSubset <- delete.na(dfSubset) #remove missing values
+
+ValveCode <- read.csv("Valve_code.csv", header=TRUE, sep=",", stringsAsFactors=TRUE)
+
+ValveCode$Running.Block. <- NULL
+for(i in 1:length(ValveCode$Trial)){
+  if(ValveCode$Block[i] == "Nonenol"){
+    ValveCode$Running.Block.[i] <- "Test1"
+  }
+  if(ValveCode$Block[i] == "Linalool"){
+    ValveCode$Running.Block.[i] <- "Test2"
+  }
+}
+
+ValveCode2 <- subset(ValveCode, select = -c(TMALeftRight))
+
+df.merge  <- merge(dfSubset, ValveCode2, c("Running.Block.", "Trial"))
+df.merge <- subset(df.merge, select = c("Subject", "TMA", "Antag", "Block", "Odor", "NostrilType"))
+df.melt <- melt(df.merge, c("Subject", "Block", "Odor", "NostrilType"))
+write.table(df.merge, "dfmerge.txt") #This was the data that was exported for Sianneh to work with to graph individual participants
+
+```
+
+Now, data are normalized and graphed.
+
+```{r}
+range01 <- function(x){(x-min(x))/(max(x)-min(x))}
+normalizedData <- ddply(df.merge, .variables = c("Subject"), transform, TMANorm = range01(TMA), antagNorm = range01(Antag))
+
+#normalize data
+avgnorm <- ddply(.data = normalizedData, .variables = c("Subject", "NostrilType", "Odor", "Block"), .fun= summarize, avgTMA = mean(TMANorm), stdev = sd(TMANorm), sterr = stdev/sqrt(4))
+pureavg <- ddply(.data = avgnorm, .variables = c("NostrilType", "Odor", "Block"), .fun = summarize, avgTMA2 = mean(avgTMA), stdev = sd(avgTMA), sterr = sd(avgTMA)/2)
+```
+
+This is the graph used for the AChemS poster plotting fishy intensity in the different scenarios. There are extra error bars on the 'alone' - ignore them.  
+```{r}
+#devSVG("splitnostrilgraph2.svg")
+ggplot(pureavg, aes(x = NostrilType, y = avgTMA2, fill = Block)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  facet_grid(.~Block) + 
+  geom_errorbar(data = pureavg, position = "dodge", stat = "identity", aes(ymin = avgTMA2 - sterr, ymax = avgTMA2 + sterr))
+#dev.off()
+```
+We also plotted intensity ratings for the different odors in the experiment:
+```{r}
+#jar intensity balance graph
+avgnormAntag <- ddply(.data = normalizedData, .variables = c("Subject", "NostrilType", "Odor", "Block"), .fun= summarize, avgAntag = mean(antagNorm), stdev = sd(antagNorm))
+pureavgAntag <- ddply(.data = avgnormAntag, .variables = c("NostrilType", "Odor", "Block"), .fun = summarize, avgAntag2 = mean(avgAntag), stdev = sd(avgAntag), sterr = sd(avgAntag)/2)
+antagsub <- subset(pureavgAntag, NostrilType == "Alone" & Odor != "TMA") 
+names(antagsub) <- c("NostrilType", "Odor", "Block",  "Intensity", "stdev", "sterr")
+tmasub <- subset(pureavg, NostrilType == "Alone" & Odor == "TMA")
+names(tmasub) <-  c("NostrilType", "Odor", "Block",  "Intensity", "stdev", "sterr")
+together <- rbind(tmasub, antagsub)
+together$Odor <- factor(together$Odor, levels = c("TMA", "Non", "Lin"))
+
+
+#devSVG("/Volumes/mainland/Projects/TMA blocker/Poster/splitnostrilgraphIntensity.svg")
+ggplot(together, aes(x = Odor, y = Intensity, fill = Odor)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  geom_errorbar(data = together, position = "dodge", stat = "identity", aes(ymin = Intensity - sterr, ymax = Intensity + sterr))
+#dev.off()
+```
+

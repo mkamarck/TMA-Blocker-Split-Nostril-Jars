@@ -1,0 +1,25 @@
+{
+    "contents" : "",
+    "created" : 1447959768915.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "DC74C9F1",
+    "lastKnownWriteTime" : 7886488416495627365,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "41k8ndlh4w",
+        "caption" : "melt.normalizedData",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=melt.normalizedData&cache_key=41k8ndlh4w",
+        "displayedObservations" : 1388,
+        "environment" : "",
+        "object" : "melt.normalizedData",
+        "totalObservations" : 1388,
+        "variables" : 6
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "type" : "r_dataframe"
+}

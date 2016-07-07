@@ -1,0 +1,25 @@
+{
+    "contents" : "",
+    "created" : 1460600327045.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "4F47F97D",
+    "lastKnownWriteTime" : 8317952940417417216,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "w1czs77sak",
+        "caption" : "avgnorm",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=avgnorm&cache_key=w1czs77sak",
+        "displayedObservations" : "64",
+        "environment" : "",
+        "object" : "avgnorm",
+        "totalObservations" : "64",
+        "variables" : "7"
+    },
+    "relative_order" : 8,
+    "source_on_save" : false,
+    "type" : "r_dataframe"
+}

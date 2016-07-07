@@ -1,0 +1,18 @@
+{
+    "contents" : "#is it true that you only breathe out of one nostril at a time? \n#Compare values of left and right nostrils with TMA for each person - if they are different this may be a problem...\n\n#start with valveCode\n\ndf.merge  <- merge(dfSubset, ValveCode, c(\"Running.Block.\", \"Trial\"))\ndf.merge <- subset(df.merge, select = c(\"Subject\", \"TMA\", \"Antag\", \"Block\", \"Odor\", \"NostrilType\", \"TMALeftRight\"))\ndf.melt <- melt(df.merge, c(\"Subject\", \"Block\", \"Odor\", \"NostrilType\", \"TMALeftRight\"))\n\n\n#Compare left and right nostrils\nggplot(data = subset(df.melt, variable == \"TMA\" & Block == \"Nonenol\"), aes(x = Odor, y = value, colour = NostrilType)) +\n  geom_boxplot() +\n  facet_grid(Subject~TMALeftRight)\n#this doesn't look like its making a dramatic difference. \n\n#Normalize data\nnormalizedData <- ddply(df.merge, .variables = c(\"Subject\", \"Block\"), transform, TMANorm = scale(TMA), antagNorm = scale(Antag))\n\n#plot normalized data individually\n#pdf(\"alldata.pdf\", height = 8, width = 11)\n\nggplot(data = normalizedData, aes(x = Odor, y = TMANorm, colour = TMALeftRight))+\n  geom_boxplot() +\n  facet_grid(Subject~NostrilType)\n\n\n#we need to know if the individual variability of TMA rated alone is more comparing the right and left nostrils\n#than between two measurements in the same nostril\n#this is what an anova can test, right?  - this question I'm very interested in becuase it will matter for whether i bother to set up the split nostril study or not\n\n#or maybe we still run the split nostril, but we can't interpret it the same way.  For instance, if you are really inhaling a lot more through\n#one nostril than the other, and you are subtracting the individual difference of the between nostril test from the TMA alone, you \n#should subtract the difference from the average of the TMA alone rating in the right nostril from both in different nostrils but where the TMA is in the right nostril\n#that way it is a comparable level of TMA...\n#would this truely solve the issue? maybe talk to Joel about whether its worth analyzing this way...\n",
+    "created" : 1449523051811.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1306051441",
+    "id" : "72FBD16A",
+    "lastKnownWriteTime" : 1449524497,
+    "path" : "/Volumes/mainland/Projects/TMA blocker/Split Nostril Study/Setup1/Code/CompareLandR.R",
+    "project_path" : "CompareLandR.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

@@ -1,0 +1,18 @@
+{
+    "contents" : "################################################################\n\n#Import Libraries\nlibrary(reshape2)\nlibrary(ggplot2)\nlibrary(plyr)\nlibrary(pipeR)\n\n#clear previous stuff\nrm(df)\nrm(df.merge)\nrm(df.norm)\nrm(df.norm_melt)\nrm(df.norm_scaled)\nrm(dfSubset)\nrm(dfSubset2)\nrm(statsdf)\n\n#setwd(\"Data/Raw Data\")\nsetwd(\"/Volumes/mainland/Projects/TMA blocker/Split Nostril Study/Setup1/\")\n\n#read all files from directory\nsubj <- dir(path = \"Data/\", pattern=\"\\\\.txt$\", full.names=TRUE)# creating a list of all file names\nnames(subj)  <- basename(subj)\ndf  <- ldply(subj, read.delim, stringsAsFactors=FALSE)\n\n#subsetdata to get rid of test mode and include only relevant columnss\ndfSubset  <- subset(df, Procedure.SubTrial. == \"RatingProc\", select = c (\"Subject\", \"Session\", \"Running.Block.\",  \"Trial\", \"Procedure.Trial.\", \"BlockRating.SubTrial.\", \"BlockRating\", \"TMARating.SubTrial.\", \"TMARating\", \"Straw1and2\", \"Straw3and4\", \"Jar1\", \"Jar2\", \"Jar3\", \"Jar4\"))\n#Combine the weird shit that's happening with the two different columns for rating...\n\nfor(i in 1:length(dfSubset$TMARating)){\n  if(is.na(dfSubset$TMARating[i])){\n    dfSubset$TMARating[i] <- dfSubset$TMARating.SubTrial.[i]\n    dfSubset$BlockRating[i] <- dfSubset$BlockRating.SubTrial.[i]\n    }\n  }\ndfSubset <- dfSubset[,c(-6,-8)]\n\n\n#cONVErT SCALES\ndfSubset$TMA  <- abs(as.integer(dfSubset$TMARating)-400)\ndfSubset$Antag  <- abs(as.integer(dfSubset$BlockRating) - 400)\n\n\nValveCode <- read.csv(\"Valve_code.csv\", header=TRUE, sep=\",\", stringsAsFactors=TRUE)\n\nValveCode$Running.Block. <- NULL\nfor(i in 1:length(ValveCode$Trial)){\n  if(ValveCode$Block[i] == \"Nonenol\"){\n    ValveCode$Running.Block.[i] <- \"Test1\"\n  }\n  if(ValveCode$Block[i] == \"Linalool\"){\n    ValveCode$Running.Block.[i] <- \"Test2\"\n  }\n}\n\ndf.merge  <- merge(dfSubset, ValveCode, c(\"Running.Block.\", \"Trial\"))\ndf.merge <- subset(df.merge, select = c(\"Subject\", \"TMA\", \"Antag\", \"Block\", \"Odor\", \"NostrilType\"))\ndf.melt <- melt(df.merge, c(\"Subject\", \"Block\", \"Odor\", \"NostrilType\"))\n\nggplot(data = subset(df.melt, Block == \"Nonenol\"), aes(x = Odor, y = value, colour = NostrilType)) +\n    geom_boxplot() +\n    facet_grid(variable~Subject)\n\nggplot(data = subset(df.melt, Block == \"Linalool\"), aes(x = Odor, y = value, colour = NostrilType)) +\n  geom_boxplot() +\n  facet_grid(variable~Subject)\n",
+    "created" : 1445027070871.000,
+    "dirty" : true,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1613172616",
+    "id" : "D3141290",
+    "lastKnownWriteTime" : 1445033384,
+    "path" : "/Volumes/storage/mainland/Projects/TMA blocker/Split Nostril Study/Setup1/Code/SplitNostrilSetup1.R",
+    "project_path" : "SplitNostrilSetup1.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

@@ -1,0 +1,18 @@
+{
+    "contents" : "#Taking an approach to the data to see how many subjects have a central block and how many have a peripheral block etc. \n#Specifically ones that are different between linalool and TMA\n",
+    "created" : 1447961638254.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2617148041",
+    "id" : "B6FBE68D",
+    "lastKnownWriteTime" : 1447961741,
+    "path" : "/Volumes/mainland/Projects/TMA blocker/Split Nostril Study/Setup1/Code/CentralPeriphApproach.R",
+    "project_path" : null,
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

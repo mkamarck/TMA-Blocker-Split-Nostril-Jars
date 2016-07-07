@@ -1,0 +1,18 @@
+{
+    "contents" : "# trying to make a graph for my poster\n#start with this\n#centralEffectAverage <- ddply(.data = df.merge, .variables = c(\"Subject\", \"NostrilType\", \"Odor\", \"Block\"), .fun= summarize, avgTMA = mean(TMA))\nrange01 <- function(x){(x-min(x))/(max(x)-min(x))}\nnormalizedData <- ddply(df.merge, .variables = c(\"Subject\"), transform, TMANorm = range01(TMA), antagNorm = range01(Antag))\n\nggplot(normalizedData, aes(x = NostrilType, y = TMANorm, fill = Block)) +\n  geom_boxplot()\n\n\n\n#normalize data\navgnorm <- ddply(.data = normalizedData, .variables = c(\"Subject\", \"NostrilType\", \"Odor\", \"Block\"), .fun= summarize, avgTMA = mean(TMANorm), stdev = sd(TMANorm), sterr = stdev/sqrt(4))\npureavg <- ddply(.data = avgnorm, .variables = c(\"NostrilType\", \"Odor\", \"Block\"), .fun = summarize, avgTMA2 = mean(avgTMA), stdev = sd(avgTMA), sterr = sd(avgTMA)/2)\ndevSVG(\"splitnostrilgraph2.svg\")\nggplot(pureavg, aes(x = NostrilType, y = avgTMA2, fill = Block)) +\n  geom_bar(stat = \"identity\", position = \"dodge\") +\n  facet_grid(.~Block) + \n  geom_errorbar(data = pureavg, position = \"dodge\", stat = \"identity\", aes(ymin = avgTMA2 - sterr, ymax = avgTMA2 + sterr))\ndev.off()",
+    "created" : 1460599287426.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2465424234",
+    "id" : "17E6B54D",
+    "lastKnownWriteTime" : 1460747077,
+    "path" : "/Volumes/mainland/Projects/TMA blocker/Split Nostril Study/Setup1/Code/GraphforAchemsPoster.R",
+    "project_path" : "GraphforAchemsPoster.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

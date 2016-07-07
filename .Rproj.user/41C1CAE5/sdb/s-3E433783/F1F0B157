@@ -1,0 +1,25 @@
+{
+    "contents" : "",
+    "created" : 1445033025500.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "F1F0B157",
+    "lastKnownWriteTime" : 3186350823730455040,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "n2vcloh7h1",
+        "caption" : "df.melt",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=df.melt&cache_key=n2vcloh7h1",
+        "displayedObservations" : "124",
+        "environment" : "",
+        "object" : "df.melt",
+        "totalObservations" : "124",
+        "variables" : "6"
+    },
+    "relative_order" : 7,
+    "source_on_save" : false,
+    "type" : "r_dataframe"
+}

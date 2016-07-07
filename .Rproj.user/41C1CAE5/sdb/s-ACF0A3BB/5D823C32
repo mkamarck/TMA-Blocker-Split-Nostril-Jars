@@ -1,0 +1,18 @@
+{
+    "contents" : "temp <- subset(df.merge,Subject==\"6\")\n\nnewSubject <- temp\n\nnewSubject$Subject <- 450\nnewSubject$TMA[newSubject$NostrilType==\"Alone\"] <- 168\nnewSubject$TMA[!(newSubject$NostrilType==\"Alone\")] <- 0\n\nnewData <- rbind(df.merge, newSubject)\nnewData <- df.merge\n\nrange01 <- function(x){(x-min(x))/(max(x)-min(x))}\nnormalizedData <- ddply(newData, .variables = c(\"Subject\", \"Block\"), transform, TMANorm = range01(TMA), antagNorm = range01(Antag))\n#normalizedData <- ddply(newData, .variables = c(\"Subject\", \"Block\"), transform, TMANorm = scale(TMA), antagNorm = scale(Antag))\n\n\ncentralEffectAverage <- ddply(.data = normalizedData, .variables = c(\"Subject\", \"NostrilType\", \"Odor\", \"Block\"), .fun= summarize, avgTMA = mean(TMANorm))\n\n#Average across replicates\n#For each subject calculate: TMA Alone-different\nblockingDifferences.inhibition <- ddply(centralEffectAverage, .(Subject,Block),function(x) c(CentralBlock=subset(x,NostrilType==\"Different\")$avgTMA-subset(x,Odor==\"TMA\")$avgTMA+1, PeripheralBlock=subset(x,NostrilType==\"Same\")$avgTMA-subset(x,NostrilType==\"Different\")$avgTMA+1,TotalBlock=subset(x,NostrilType==\"Same\")$avgTMA-subset(x,Odor==\"TMA\")$avgTMA+1))\nblockingDifferences.inhibition.melt <- melt(blockingDifferences.inhibition, id = c(\"Subject\", \"Block\"))\n\n#pdf(\"UseableGraphwLine.pdf\")\nggplot(blockingDifferences.inhibition.melt, aes(y= value, x=variable, color = Block)) +\n  geom_boxplot() +\n  xlab(\"Type of Block\") +\n  ylab(\"Change in Fishy Intensity\") +\n  geom_hline(y = 1) #+\n  #geom_point(subset(blockingDifferences.inhibition.melt, Subject == 450), aes(y = value, x = variable, color = Block))\n#dev.off()\n\n#pdf(\"Inverseblockwline.pdf\")\nggplot(blockingDifferences.inhibition, aes(y= value, x=variable, color = Block)) +\n  geom_boxplot() +\n  xlab(\"Type of Block\") +\n  ylab(\"Change in Fishy Intensity\") +\n  geom_hline(y = 1) #+",
+    "created" : 1454094229401.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2979804065",
+    "id" : "5D823C32",
+    "lastKnownWriteTime" : 1454095525,
+    "path" : "/Volumes/mainland/Projects/TMA blocker/Split Nostril Study/Setup1/TestSubject and useable graph.R",
+    "project_path" : null,
+    "properties" : {
+        "tempName" : "Untitled2"
+    },
+    "relative_order" : 8,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

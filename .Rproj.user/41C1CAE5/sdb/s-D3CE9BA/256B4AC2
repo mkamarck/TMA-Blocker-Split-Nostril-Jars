@@ -1,0 +1,25 @@
+{
+    "contents" : "",
+    "created" : 1454621074880.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "256B4AC2",
+    "lastKnownWriteTime" : 8589869056,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "lxdodx8e28",
+        "caption" : "centralEffectAverage",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=centralEffectAverage&cache_key=lxdodx8e28",
+        "displayedObservations" : 64,
+        "environment" : "",
+        "object" : "centralEffectAverage",
+        "totalObservations" : 64,
+        "variables" : 5
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "type" : "r_dataframe"
+}

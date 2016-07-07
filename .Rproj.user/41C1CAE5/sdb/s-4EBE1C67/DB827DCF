@@ -1,0 +1,25 @@
+{
+    "contents" : "",
+    "created" : 1460600681178.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "DB827DCF",
+    "lastKnownWriteTime" : 7453010364987436288,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "4odsr0bd6k",
+        "caption" : "pureavg",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=pureavg&cache_key=4odsr0bd6k",
+        "displayedObservations" : 8,
+        "environment" : "",
+        "object" : "pureavg",
+        "totalObservations" : 8,
+        "variables" : 6
+    },
+    "relative_order" : 9,
+    "source_on_save" : false,
+    "type" : "r_dataframe"
+}

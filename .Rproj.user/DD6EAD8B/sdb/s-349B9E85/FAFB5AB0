@@ -1,0 +1,25 @@
+{
+    "contents" : "",
+    "created" : 1449265038369.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "FAFB5AB0",
+    "lastKnownWriteTime" : 4299744768,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "wb58ap8ljc",
+        "caption" : "centralEffect.cast",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=centralEffect.cast&cache_key=wb58ap8ljc",
+        "displayedObservations" : 8,
+        "environment" : "",
+        "object" : "centralEffect.cast",
+        "totalObservations" : 8,
+        "variables" : 9
+    },
+    "relative_order" : 8,
+    "source_on_save" : false,
+    "type" : "r_dataframe"
+}

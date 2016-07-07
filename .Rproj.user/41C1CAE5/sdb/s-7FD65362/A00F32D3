@@ -1,0 +1,25 @@
+{
+    "contents" : "",
+    "created" : 1449678827303.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "A00F32D3",
+    "lastKnownWriteTime" : 2066295040,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "cses701pf2",
+        "caption" : "totalBlockingLR.avg",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=totalBlockingLR.avg&cache_key=cses701pf2",
+        "displayedObservations" : 48,
+        "environment" : "",
+        "object" : "totalBlockingLR.avg",
+        "totalObservations" : 48,
+        "variables" : 4
+    },
+    "relative_order" : 7,
+    "source_on_save" : false,
+    "type" : "r_dataframe"
+}

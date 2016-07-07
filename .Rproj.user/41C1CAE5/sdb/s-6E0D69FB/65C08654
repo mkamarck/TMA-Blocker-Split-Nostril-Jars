@@ -1,0 +1,18 @@
+{
+    "contents" : "library(ggplot2)\nlibrary(plyr)\nlibrary(reshape2)\n\n#function to delete a certain amount of nas\ndelete.na <- function(df, n=0) {\n  log <- apply(df, 2, is.na)\n  logindex <- apply(log, 1, function(x) sum(x) <= n)\n  df[logindex, ]\n}\ndf.merge <- delete.na(df.merge)\n\n#try new way of normalizingdata - noramlizes data between 0 and 1 - use this\n#range01 <- function(x){(x-min(x))/(max(x)-min(x))}\n#normalizedData <- ddply(df.merge, .variables = c(\"Subject\", \"Block\"), transform, TMANorm = range01(TMA), antagNorm = range01(Antag))\n\n#don't normalize it for now... maybe come back to this\n\n#for each subject, calculate the difference between central and total and the difference between total and peripheral. Plot those against each other\n#first average within subject the different ratings\ncentralEffectAverage <- ddply(.data = df.merge, .variables = c(\"Subject\", \"NostrilType\", \"Odor\", \"Block\"), .fun= summarize, avgTMA = mean(TMA))\n#then look at the differences\nblockingDifferences <- ddply(centralEffectAverage, .(Subject,Block),function(x) c(CentralBlock=(subset(x,Odor==\"TMA\")$avgTMA-subset(x,NostrilType==\"Different\")$avgTMA)*1, PeripheralBlock=(subset(x,NostrilType==\"Different\")$avgTMA-subset(x,NostrilType==\"Same\")$avgTMA)*1,TotalBlock=(subset(x,Odor==\"TMA\")$avgTMA-subset(x,NostrilType==\"Same\")$avgTMA*1)))\n\n#plot for each person, the central on the x and the peripheral on the y, anything above the line is those that have more peripheral block than central block. \npdf(\"/Volumes/mainland/Projects/TMA blocker/Split Nostril Study/Setup1/unityline_splitNostril.pdf\")\nggplot(data = subset(blockingDifferences, Block == \"Nonenol\"), aes(x = CentralBlock, y = PeripheralBlock, colour = factor(Subject))) + \n  geom_point() +\n  geom_abline(intercept = 0, slope = 1,col=\"blue\")  \ndev.off()\n\n\n#pdf(\"/Volumes/mainland/Projects/TMA blocker/Split Nostril Study/Setup1/unityline_splitNostril.pdf\")\nggplot(data = subset(blockingDifferences, Block == \"Linalool\"), aes(x = CentralBlock, y = PeripheralBlock, colour = factor(Subject))) + \n  geom_point() +\n  geom_abline(intercept = 0, slope = 1,col=\"blue\")  \n#dev.off()\n\npdf(\"/Volumes/mainland/Projects/TMA blocker/Split Nostril Study/Setup1/unityline_splitNostril.pdf\", width = 11.5, height = 8)\nggplot(blockingDifferences, aes(x = CentralBlock, y = PeripheralBlock, colour = factor(Subject))) + \n  geom_point() +\n  geom_abline(intercept = 0, slope = 1,col=\"blue\")  +\n  facet_grid(.~Block)\ndev.off()\n\n\n",
+    "created" : 1462797471378.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3680253884",
+    "id" : "65C08654",
+    "lastKnownWriteTime" : 1463333881,
+    "path" : "/Volumes/mainland/Projects/TMA blocker/Split Nostril Study/Setup1/Code/UnityLine.R",
+    "project_path" : "UnityLine.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 10,
+    "source_on_save" : false,
+    "type" : "r_source"
+}
